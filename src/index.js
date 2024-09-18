@@ -1,3 +1,13 @@
+const inputField = document.querySelector(".location");
+const submitButton = document.querySelector(".submit");
+const weatherTodayDiv = document.querySelector(".weather-today");
+
+submitButton.addEventListener("click", () => {
+  const inputFieldValue = inputField.value;
+  getWeather(inputFieldValue);
+})
+
+
 async function getWeather(location) {
   try {
     const response = await fetch(
@@ -9,6 +19,7 @@ async function getWeather(location) {
     const currentConditionsOutput = weatherData.currentConditions;
     const todaysConditionsOutput = weatherData.days[0];
 
+    const timeZone = weatherData.timezone;
     const todaysDate = todaysConditionsOutput.datetime;
     const currentTemperature = convertToCelcius(currentConditionsOutput.temp);
     const currentFeelsLikeTemperature = convertToCelcius(currentConditionsOutput.feelslike);
@@ -18,6 +29,7 @@ async function getWeather(location) {
     const currentConditionsDescription = currentConditionsOutput.conditions;
 
     let weatherOutput = {
+        timezone: timeZone,
         date: todaysDate,
         temp: currentTemperature,
         feelsLike: currentFeelsLikeTemperature,
@@ -27,7 +39,11 @@ async function getWeather(location) {
         description: currentConditionsDescription,
       };
 
-    console.log(weatherOutput);
+      //TODO: Try and get the week's data
+    
+      //TODO: Add the weather to the DOM using the div
+      
+    console.log(weatherOutput, weatherData);
   } catch (err) {
     console.log(err);
   }
@@ -38,5 +54,3 @@ function convertToCelcius(fahrenheit) {
   const temperature = celcius.toFixed(1);
   return temperature;
 }
-
-getWeather("SYDNEY");
