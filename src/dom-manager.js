@@ -8,6 +8,8 @@ const domManager = (function DomManager() {
   const todayWeatherContainer = document.querySelector(".weather-today");
   const futureWeatherContainer = document.querySelector(".weather-future");
 
+//TODO: Need to clear DOM every time the button is clicked (for future weather data)
+
   const locationButton = () => {
     submitButton.addEventListener("click", async () => {
       const inputFieldValue = inputField.value;
@@ -16,17 +18,18 @@ const domManager = (function DomManager() {
         let weatherOutput = await weatherAPI.getWeather(inputFieldValue);
         console.log(weatherOutput);
         todayWeatherContainer.innerHTML = `
-                <ul>
-                    <li class="current-output" id="current-date">Date: ${weatherOutput.date}</li>
-                    <li class="current-output" id="current-description">Description: ${weatherOutput.description}</li>
-                    <li class="current-output" id="current-location">Location: ${weatherOutput.resolvedAddress}</li>
-                    <li class="current-output" id="current-timezone">Timezone: ${weatherOutput.timezone}</li>
-                    <li class="current-output" id="current-temperature">Current Temperature: ${weatherOutput.temp}</li>
-                    <li class="current-output" id="current-feelslike">Feels Like: ${weatherOutput.feelsLike}</li>
-                    <li class="current-output" id="todays-max">Temperature (Max): ${weatherOutput.tempMax}</li>
-                    <li class="current-output" id="todays-min">Temperature (Min): ${weatherOutput.tempMin}</li>
-                    <li class="current-output" id="current-precipitation">Precipitation: ${weatherOutput.precip}</li>
-                </ul>
+                <div class="current-output">
+                    <div id="current-temperature">${weatherOutput.temp}</div>
+                    <div id="current-description">${weatherOutput.description}</div>
+                    <div id="current-date">${weatherOutput.date}</div>
+                    <div id="current-location">${weatherOutput.resolvedAddress} (${weatherOutput.timezone})</div>
+                    <div id="current-feelslike">Feels Like: ${weatherOutput.feelsLike}</div>
+                    <div id="todays-minmax">
+                        <div id="min"><span class="bold">Min:</span> ${weatherOutput.tempMin}</div> 
+                        <div id="max"><span class="bold">Max:</span> ${weatherOutput.tempMax}</div>
+                    </div>
+                    <div id="current-precipitation">Precipitation: ${weatherOutput.precip}</div>
+                </div>
                 `;
       } catch (err) {
         console.log(err);
@@ -38,13 +41,16 @@ const domManager = (function DomManager() {
         console.log(futureWeatherOutput);
         futureWeatherOutput.forEach((item, index) => {
           const div = document.createElement("div");
+          div.className = "future-days"
           div.innerHTML = `
-                    <ul>
-                        <li class="day${index + 1}-output" id="day${index + 1}-date">Date: ${item.date}</li>
-                        <li class="day${index + 1}-output" id="day${index + 1}-max">Temperature (Max): ${item.tempMax}</li>
-                        <li class="day${index + 1}-output" id="day${index + 1}-min">Temperature (Min): ${item.tempMin}</li>
-                        <li class="day${index + 1}-output" id="day${index + 1}-description">Description: ${item.description}</li>
-                    </ul>
+                    <div class="day${index+1}-output">
+                        <div id="day${index + 1}-date">Date: ${item.date}</div>
+                        <div id="day${index + 1}-minmax minmax">
+                            <div id="min"><span class="bold">Min:</span> ${item.tempMin}</div> 
+                            <div id="max"><span class="bold">Max:</span> ${item.tempMax}</div>
+                        </div>
+                        <div id="day${index + 1}-description">Description: ${item.description}</div>
+                    </div>
                     `;
           futureWeatherContainer.appendChild(div);
         });
