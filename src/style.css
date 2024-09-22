@@ -52,7 +52,7 @@ body {
     font-size: 14px;
 }
 
-#todays-minmax, #minmax {
+#todays-minmax, .minmax {
     display: flex;
     justify-content: space-between;
     width: 150px;
@@ -74,4 +74,13 @@ body {
 .future-days {
     padding: 10px;
     width: 200px;
+}
+
+.loading {
+    text-align: center;
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
 }
