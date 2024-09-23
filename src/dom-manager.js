@@ -43,9 +43,11 @@ const domManager = (function DomManager() {
         let futureWeatherOutput =
           await weatherAPI.getWeeklyWeather(inputFieldValue);
         futureWeatherOutput.forEach((item, index) => {
+          const iconSrc = require(`./weather-icons/${item.icon}.svg`);
           const div = document.createElement("div");
           div.className = "future-days";
           div.innerHTML = `
+          <img src="${iconSrc}"" alt="${item.icon}" width="50" class="icon">
                     <div class="day${index + 1}-output">
                         <div id="day${index + 1}-date">Date: ${item.date}</div>
                         <div id="day${index + 1}-minmax" class="minmax">
