@@ -18,9 +18,10 @@ const domManager = (function DomManager() {
       futureWeatherContainer.innerHTML = "";
       try {
         let weatherOutput = await weatherAPI.getWeather(inputFieldValue);
-        console.log(weatherOutput);
+        const iconSrc = require(`./weather-icons/${weatherOutput.icon}.svg`);
         todayWeatherContainer.innerHTML = `
                 <div class="current-output">
+                    <img src="${iconSrc}"" alt="${weatherOutput.icon}" width="100" class="icon">
                     <div id="current-temperature">${weatherOutput.temp}</div>
                     <div id="current-description">${weatherOutput.description}</div>
                     <div id="current-date">Date: ${weatherOutput.date}</div>
@@ -33,6 +34,7 @@ const domManager = (function DomManager() {
                     <div id="current-precipitation">Precipitation: ${weatherOutput.precip}%</div>
                 </div>
                 `;
+        loadingContainer.className = "hidden";
       } catch (err) {
         console.log(err);
       }
@@ -40,12 +42,11 @@ const domManager = (function DomManager() {
       try {
         let futureWeatherOutput =
           await weatherAPI.getWeeklyWeather(inputFieldValue);
-        console.log(futureWeatherOutput);
         futureWeatherOutput.forEach((item, index) => {
           const div = document.createElement("div");
-          div.className = "future-days"
+          div.className = "future-days";
           div.innerHTML = `
-                    <div class="day${index+1}-output">
+                    <div class="day${index + 1}-output">
                         <div id="day${index + 1}-date">Date: ${item.date}</div>
                         <div id="day${index + 1}-minmax" class="minmax">
                             <div id="min"><span class="bold">Min:</span> ${item.tempMin}</div> 
@@ -55,7 +56,6 @@ const domManager = (function DomManager() {
                     </div>
                     `;
           futureWeatherContainer.appendChild(div);
-          loadingContainer.className = "hidden";
         });
       } catch (err) {
         console.log(err);

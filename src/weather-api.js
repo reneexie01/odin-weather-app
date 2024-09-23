@@ -25,6 +25,7 @@ const weatherAPI = (function WeatherAPI() {
       const todaysTempMin = convertToCelcius(todaysConditionsOutput.tempmin);
       const todaysPrecip = todaysConditionsOutput.precip;
       const currentConditionsDescription = currentConditionsOutput.conditions;
+      const currentIcon = currentConditionsOutput.icon;
 
       let weatherOutput = {
         resolvedAddress: resolvedAddress,
@@ -36,6 +37,7 @@ const weatherAPI = (function WeatherAPI() {
         tempMin: todaysTempMin,
         precip: todaysPrecip,
         description: currentConditionsDescription,
+        icon: currentIcon,
       };
       return weatherOutput;
     } catch (err) {
@@ -57,12 +59,14 @@ const weatherAPI = (function WeatherAPI() {
       const maxTemp1 = convertToCelcius(day1Output.tempmax);
       const minTemp1 = convertToCelcius(day1Output.tempmin);
       const description1 = day1Output.conditions;
+      const icon1 = day1Output.icon;
 
       let weatherOutput1 = {
         date: day1Date,
         tempMax: maxTemp1,
         tempMin: minTemp1,
         description: description1,
+        icon: icon1,
       };
 
       const day2Output = weatherData.days[2];
@@ -70,12 +74,14 @@ const weatherAPI = (function WeatherAPI() {
       const maxTemp2 = convertToCelcius(day2Output.tempmax);
       const minTemp2 = convertToCelcius(day2Output.tempmin);
       const description2 = day2Output.conditions;
+      const icon2 = day2Output.icon;
 
       let weatherOutput2 = {
         date: day2Date,
         tempMax: maxTemp2,
         tempMin: minTemp2,
         description: description2,
+        icon: icon2,
       };
 
       const day3Output = weatherData.days[3];
@@ -83,16 +89,18 @@ const weatherAPI = (function WeatherAPI() {
       const maxTemp3 = convertToCelcius(day3Output.tempmax);
       const minTemp3 = convertToCelcius(day3Output.tempmin);
       const description3 = day3Output.conditions;
+      const icon3 = day3Output.icon;
 
       let weatherOutput3 = {
         date: day3Date,
         tempMax: maxTemp3,
         tempMin: minTemp3,
         description: description3,
+        icon: icon3,
       };
 
       let futureWeather = [weatherOutput1, weatherOutput2, weatherOutput3];
-
+      console.log(weatherData); //TODO: Get icons for weather conditions
       return futureWeather;
     } catch (err) {
       console.log(err);
