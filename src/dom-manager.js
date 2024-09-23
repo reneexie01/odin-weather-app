@@ -7,7 +7,8 @@ const domManager = (function DomManager() {
   const submitButton = document.querySelector(".submit");
   const todayWeatherContainer = document.querySelector(".weather-today");
   const futureWeatherContainer = document.querySelector(".weather-future");
-  const loadingContainer = document.querySelector(".loading");
+  const loadingContainer = document.querySelector("#loading");
+  const errorContainer = document.querySelector(".error-message");
 
   const locationButton = () => {
     submitButton.addEventListener("click", async () => {
@@ -16,6 +17,7 @@ const domManager = (function DomManager() {
       const inputFieldValue = inputField.value;
       todayWeatherContainer.innerHTML = "";
       futureWeatherContainer.innerHTML = "";
+      errorContainer.innerHTML = "";
       try {
         let weatherOutput = await weatherAPI.getWeather(inputFieldValue);
         const iconSrc = require(`./weather-icons/${weatherOutput.icon}.svg`);
@@ -36,6 +38,13 @@ const domManager = (function DomManager() {
                 `;
         loadingContainer.className = "hidden";
       } catch (err) {
+        const div = document.createElement("div")
+        div.className = "current-error";
+        div.innerHTML = `
+        <p>Unknown location submitted.</p> 
+        <p>Current weather conditions cannot be retrieved.</p>`;
+        errorContainer.appendChild(div);
+        loadingContainer.className = "hidden";
         console.log(err);
       }
 
@@ -60,6 +69,12 @@ const domManager = (function DomManager() {
           futureWeatherContainer.appendChild(div);
         });
       } catch (err) {
+        const div = document.createElement("div")
+        div.className = "future-error";
+        div.innerHTML = `
+        <p>Weather forecasts cannot be retrieved.</p>
+        <p>Please try again.</p>`;
+        errorContainer.appendChild(div);
         console.log(err);
       }
     });

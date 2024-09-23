@@ -85,7 +85,7 @@ body {
   width: 200px;
 }
 
-.loading {
+#loading {
   text-align: center;
   padding: 50px;
 }
@@ -98,3 +98,6 @@ body {
   filter: invert(1);
 }
 
+.error-message {
+    text-align: center;               
+}
